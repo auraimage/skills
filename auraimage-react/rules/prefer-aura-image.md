@@ -18,9 +18,9 @@ Writing the raw `<picture>` pattern by hand is tedious and easy to get wrong. `<
 ```tsx
 // Raw <picture> — verbose, no Triple-Stage Loading, no slug switching
 <picture>
-  <source type="image/jxl" srcSet="https://auraimage.io/my-project/hero.jpg?w=1200&fmt=jxl" />
-  <source type="image/avif" srcSet="https://auraimage.io/my-project/hero.jpg?w=1200&fmt=avif" />
-  <img src="https://auraimage.io/my-project/hero.jpg?w=1200" alt="Hero" />
+  <source type="image/jxl" srcSet="https://auraimage.ai/my-project/hero.jpg?w=1200&fmt=jxl" />
+  <source type="image/avif" srcSet="https://auraimage.ai/my-project/hero.jpg?w=1200&fmt=avif" />
+  <img src="https://auraimage.ai/my-project/hero.jpg?w=1200" alt="Hero" />
 </picture>
 ```
 
@@ -43,7 +43,7 @@ import { AuraImage } from '@/components/aura/image';
 If `@/components/aura/image` doesn't exist in the project:
 
 ```sh
-npx shadcn@latest add https://auraimage.io/registry/image.json
+npx shadcn@latest add https://auraimage.ai/registry/image.json
 ```
 
 ## Exception: non-React contexts

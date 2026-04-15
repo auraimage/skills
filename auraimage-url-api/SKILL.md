@@ -22,7 +22,7 @@ Reference these rules when:
 ## URL Format
 
 ```
-https://auraimage.io/{slug}/{filename}?{params}
+https://auraimage.ai/{slug}/{filename}?{params}
 ```
 
 - `slug` — your project slug (from the AuraImage dashboard)
@@ -73,7 +73,7 @@ https://auraimage.io/{slug}/{filename}?{params}
 
 In React or Next.js projects, **prefer `<AuraImage />` over writing raw `<picture>` elements**. The component handles Triple-Stage Loading (BlurHash → LQIP → JXL), correct `sizes`, and dev/prod slug switching automatically.
 
-Install: `npx shadcn@latest add https://auraimage.io/registry/image.json`
+Install: `npx shadcn@latest add https://auraimage.ai/registry/image.json`
 
 See the `auraimage-react` skill for full component documentation. Use the raw `<picture>` patterns below for plain HTML, email templates, Open Graph tags, and CSS backgrounds.
 
@@ -95,21 +95,21 @@ rules/fit-modes.md
   <source
     type="image/jxl"
     srcSet="
-      https://auraimage.io/{slug}/{file}?w=400&fmt=jxl 400w,
-      https://auraimage.io/{slug}/{file}?w=800&fmt=jxl 800w,
-      https://auraimage.io/{slug}/{file}?w=1200&fmt=jxl 1200w
+      https://auraimage.ai/{slug}/{file}?w=400&fmt=jxl 400w,
+      https://auraimage.ai/{slug}/{file}?w=800&fmt=jxl 800w,
+      https://auraimage.ai/{slug}/{file}?w=1200&fmt=jxl 1200w
     "
   />
   <source
     type="image/avif"
     srcSet="
-      https://auraimage.io/{slug}/{file}?w=400&fmt=avif 400w,
-      https://auraimage.io/{slug}/{file}?w=800&fmt=avif 800w,
-      https://auraimage.io/{slug}/{file}?w=1200&fmt=avif 1200w
+      https://auraimage.ai/{slug}/{file}?w=400&fmt=avif 400w,
+      https://auraimage.ai/{slug}/{file}?w=800&fmt=avif 800w,
+      https://auraimage.ai/{slug}/{file}?w=1200&fmt=avif 1200w
     "
   />
   <img
-    src="https://auraimage.io/{slug}/{file}?w=1200"
+    src="https://auraimage.ai/{slug}/{file}?w=1200"
     alt="..."
     width={1200}
     loading="lazy"

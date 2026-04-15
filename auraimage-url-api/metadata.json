@@ -2,5 +2,5 @@
   "version": "0.1.0",
   "organization": "AuraImage",
   "abstract": "Rules for constructing AuraImage transformation URLs, generating responsive <picture> elements, and selecting the right format and fit parameters. Covers all query parameters (w, h, q, fmt, fit) and tier-gated features.",
-  "references": ["https://auraimage.io/docs/url-api"]
+  "references": ["https://auraimage.ai/docs/url-api"]
 }

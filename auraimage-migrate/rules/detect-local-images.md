@@ -53,7 +53,7 @@ SVGs should generally stay as inline SVGs or local files — **do not migrate SV
 ## Exclusions
 
 Do not flag:
-- Images already on `auraimage.io`
+- Images already on `auraimage.ai`
 - SVG files (unless unusually large)
 - `favicon.ico` and web manifest icons
 - Images inside `node_modules`

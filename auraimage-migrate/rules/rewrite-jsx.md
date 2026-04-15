@@ -15,23 +15,23 @@ Replace local or third-party `<img>` tags with AuraImage `<picture>` elements af
   <source
     type="image/jxl"
     srcSet="
-      https://auraimage.io/{slug}/hero.jpg?w=400&fmt=jxl 400w,
-      https://auraimage.io/{slug}/hero.jpg?w=800&fmt=jxl 800w,
-      https://auraimage.io/{slug}/hero.jpg?w=1200&fmt=jxl 1200w
+      https://auraimage.ai/{slug}/hero.jpg?w=400&fmt=jxl 400w,
+      https://auraimage.ai/{slug}/hero.jpg?w=800&fmt=jxl 800w,
+      https://auraimage.ai/{slug}/hero.jpg?w=1200&fmt=jxl 1200w
     "
     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 1200px"
   />
   <source
     type="image/avif"
     srcSet="
-      https://auraimage.io/{slug}/hero.jpg?w=400&fmt=avif 400w,
-      https://auraimage.io/{slug}/hero.jpg?w=800&fmt=avif 800w,
-      https://auraimage.io/{slug}/hero.jpg?w=1200&fmt=avif 1200w
+      https://auraimage.ai/{slug}/hero.jpg?w=400&fmt=avif 400w,
+      https://auraimage.ai/{slug}/hero.jpg?w=800&fmt=avif 800w,
+      https://auraimage.ai/{slug}/hero.jpg?w=1200&fmt=avif 1200w
     "
     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 1200px"
   />
   <img
-    src="https://auraimage.io/{slug}/hero.jpg?w=1200"
+    src="https://auraimage.ai/{slug}/hero.jpg?w=1200"
     alt="Hero"
     className="w-full"
     width={1200}
@@ -64,10 +64,10 @@ import heroImg from '../../public/hero.jpg';
 **After:**
 ```tsx
 <picture>
-  <source type="image/jxl" srcSet="https://auraimage.io/{slug}/product.jpg?w=400&h=400&fit=cover&fmt=jxl 400w" />
-  <source type="image/avif" srcSet="https://auraimage.io/{slug}/product.jpg?w=400&h=400&fit=cover&fmt=avif 400w" />
+  <source type="image/jxl" srcSet="https://auraimage.ai/{slug}/product.jpg?w=400&h=400&fit=cover&fmt=jxl 400w" />
+  <source type="image/avif" srcSet="https://auraimage.ai/{slug}/product.jpg?w=400&h=400&fit=cover&fmt=avif 400w" />
   <img
-    src="https://auraimage.io/{slug}/product.jpg?w=400&h=400&fit=cover"
+    src="https://auraimage.ai/{slug}/product.jpg?w=400&h=400&fit=cover"
     alt="Product"
     width={400}
     height={400}
@@ -88,7 +88,7 @@ import heroImg from '../../public/hero.jpg';
 **After:**
 ```css
 .hero {
-  background-image: url('https://auraimage.io/{slug}/hero.jpg?w=1920&q=75');
+  background-image: url('https://auraimage.ai/{slug}/hero.jpg?w=1920&q=75');
 }
 ```
 

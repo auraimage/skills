@@ -3,7 +3,7 @@
   "organization": "AuraImage",
   "abstract": "Rules for using the AuraImage Shadcn component registry in React and Next.js projects. Covers the <AuraImage /> display component, <AuraUploader /> widget, Triple-Stage Loading (BlurHash → LQIP → JXL), and BlurHash integration patterns.",
   "references": [
-    "https://auraimage.io/docs/react",
-    "https://auraimage.io/registry"
+    "https://auraimage.ai/docs/react",
+    "https://auraimage.ai/registry"
   ]
 }

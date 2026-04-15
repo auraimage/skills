@@ -25,10 +25,10 @@ Components are injected directly into your `/components` folder — no locked NP
 
 ```sh
 # Display component (recommended for all image rendering)
-npx shadcn@latest add https://auraimage.io/registry/image.json
+npx shadcn@latest add https://auraimage.ai/registry/image.json
 
 # Upload widget (drag-and-drop + presigned upload)
-npx shadcn@latest add https://auraimage.io/registry/uploader.json
+npx shadcn@latest add https://auraimage.ai/registry/uploader.json
 ```
 
 ## Rule Categories

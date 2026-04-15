@@ -42,14 +42,14 @@ async function uploadImage(file: File): Promise<string> {
   form.append('file', file);
   form.append('filename', file.name);
 
-  const res = await fetch('https://api.auraimage.io/v1/upload', {
+  const res = await fetch('https://api.auraimage.ai/v1/upload', {
     method: 'POST',
     headers: { 'X-Aura-Signature': token },
     body: form,
   });
 
   const { url } = await res.json();
-  // url = "https://auraimage.io/my-project/photo.jpg"
+  // url = "https://auraimage.ai/my-project/photo.jpg"
   return url;
 }
 ```

@@ -34,7 +34,7 @@ These serve originals with no transformation. After migrating, replace with Aura
 Any `<img src="https://...">` that:
 - Lacks width/height params
 - Points to a `.jpg`/`.png` larger than 200 KB
-- Is not on `auraimage.io`
+- Is not on `auraimage.ai`
 
 ## Replacement Strategy
 

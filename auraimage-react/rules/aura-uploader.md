@@ -15,7 +15,7 @@ Use `<AuraUploader />` for all image upload UI in React projects.
 ## Install
 
 ```sh
-npx shadcn@latest add https://auraimage.io/registry/uploader.json
+npx shadcn@latest add https://auraimage.ai/registry/uploader.json
 ```
 
 ## Basic Usage
@@ -96,7 +96,7 @@ const handleUpload = async (file: File) => {
   const { token } = await fetch('/api/upload-token').then(r => r.json());
   const form = new FormData();
   form.append('file', file);
-  await fetch('https://api.auraimage.io/v1/upload', {
+  await fetch('https://api.auraimage.ai/v1/upload', {
     method: 'POST',
     headers: { 'X-Aura-Signature': token },
     body: form,
