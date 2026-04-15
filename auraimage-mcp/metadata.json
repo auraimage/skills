@@ -1,0 +1,6 @@
+{
+  "version": "0.1.0",
+  "organization": "AuraImage",
+  "abstract": "Configures the @auraimage/mcp-server for the current project by writing the correct entry to .mcp.json. Provides agent-executable instructions so the AI coding agent sets up the MCP server without manual steps.",
+  "references": ["https://auraimage.io/docs/mcp"]
+}

@@ -1,0 +1,6 @@
+{
+  "version": "0.1.0",
+  "organization": "AuraImage",
+  "abstract": "Rules for migrating local, S3, or third-party image assets to AuraImage. Covers detection of migrateable images, the audit → migrate workflow using MCP tools, JSX/HTML rewriting, and the server-side upload signing flow for new images.",
+  "references": ["https://auraimage.io/docs/migration"]
+}
