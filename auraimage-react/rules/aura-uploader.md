@@ -96,7 +96,7 @@ const handleUpload = async (file: File) => {
   const { token } = await fetch('/api/upload-token').then(r => r.json());
   const form = new FormData();
   form.append('file', file);
-  await fetch('https://api.auraimage.ai/v1/upload', {
+  await fetch('https://cdn.auraimage.ai/v1/upload', {
     method: 'POST',
     headers: { 'X-Aura-Signature': token },
     body: form,

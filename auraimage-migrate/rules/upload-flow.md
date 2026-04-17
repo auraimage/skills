@@ -42,7 +42,7 @@ async function uploadImage(file: File): Promise<string> {
   form.append('file', file);
   form.append('filename', file.name);
 
-  const res = await fetch('https://api.auraimage.ai/v1/upload', {
+  const res = await fetch('https://cdn.auraimage.ai/v1/upload', {
     method: 'POST',
     headers: { 'X-Aura-Signature': token },
     body: form,
