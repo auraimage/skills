@@ -88,7 +88,7 @@ import { AuraImage } from '@/components/aura/image';
   alt="User avatar"
   width={80}
   height={80}
-  fit="face"         // Pro+ tier: face-aware crop
+  fit="face"         // face-aware crop
   quality={90}
 />
 ```
@@ -116,7 +116,7 @@ The `<AuraImage />` component implements this loading sequence automatically:
 |-------|-------------------|-----|
 | **1 — Instant** | Blurred colorful placeholder | BlurHash string decoded to a DataURI, rendered immediately in HTML |
 | **2 — Fast** | Low-resolution preview | `?w=50&q=20` version of the image fetched after mount |
-| **3 — Final** | Full-quality JXL/AVIF image | Full-resolution image fades in, replacing the placeholder |
+| **3 — Final** | Full-quality AVIF/WebP image | Full-resolution image fades in, replacing the placeholder |
 
 This eliminates layout shift (CLS) and makes images feel instant even on slow connections.
 

@@ -36,8 +36,8 @@ https://auraimage.ai/{slug}/{filename}?{params}
 | `w` | integer | Output width in px. Always set this — never serve full-resolution images. |
 | `h` | integer | Output height in px. Optional; omit to preserve aspect ratio. |
 | `q` | 1–100 | Quality. Default: `80`. Use `60`–`75` for photos, `90` for logos/UI. |
-| `fmt` | `jxl` \| `avif` \| `webp` \| `jpeg` | Explicit format override. Omit to let AuraImage auto-negotiate via `Accept` header. |
-| `fit` | `cover` \| `face` \| `auto` \| `contain` | Crop mode. Default: `cover`. `face` requires Pro+. `auto` requires Startup. |
+| `fmt` | `avif` \| `webp` \| `jpeg` | Explicit format override. Omit to let AuraImage auto-negotiate via `Accept` header. |
+| `fit` | `cover` \| `face` \| `auto` \| `contain` | Crop mode. Default: `cover`. |
 | `blur` | `true` | Returns a blurred placeholder version of the image from the CDN. Use as an `<img>` `src` while the full image loads. Prefer the stored `blurhash` string for LCP images (zero network request). |
 
 ## Rule Categories
@@ -48,20 +48,20 @@ https://auraimage.ai/{slug}/{filename}?{params}
 
 ### 2. Responsive Images (HIGH)
 
-- `responsive-picture-element` — Use `<picture>` with JXL → AVIF fallback srcsets for any content image wider than 200 px.
+- `responsive-picture-element` — Use `<picture>` with AVIF → WebP fallback srcsets for any content image wider than 200 px.
 - `responsive-srcset-breakpoints` — Use at minimum three widths: `400`, `800`, `1200`. Add `2x` variants (`800`, `1600`, `2400`) for hero images.
 
 ### 3. Format Selection (HIGH)
 
-- `format-auto-negotiate` — Omit `fmt` in production; the CDN returns the best format the browser supports (JXL → AVIF → WebP → JPEG).
+- `format-auto-negotiate` — Omit `fmt` in production; the CDN returns the best format the browser supports (AVIF → WebP → JPEG).
 - `format-explicit-override` — Only set `fmt` when you need a specific format for a non-browser consumer (e.g. an `<og:image>` tag must be JPEG/PNG, so set `fmt=jpeg`).
 
 ### 4. Fit Modes (MEDIUM)
 
 - `fit-cover-default` — Use `fit=cover` for thumbnails and cards where the container has a fixed aspect ratio.
 - `fit-contain-letterbox` — Use `fit=contain` for logos and product images where cropping is unacceptable.
-- `fit-face-portraits` — Use `fit=face` (Pro+) for user avatars and portrait photos to keep faces centered.
-- `fit-auto-saliency` — Use `fit=auto` (Startup) for editorial images where the subject is unpredictable.
+- `fit-face-portraits` — Use `fit=face` for user avatars and portrait photos to keep faces centered.
+- `fit-auto-saliency` — Use `fit=auto` for editorial images where the subject is unpredictable.
 
 ### 5. Quality Presets (MEDIUM)
 
@@ -71,7 +71,7 @@ https://auraimage.ai/{slug}/{filename}?{params}
 
 ## React / Next.js Projects
 
-In React or Next.js projects, **prefer `<AuraImage />` over writing raw `<picture>` elements**. The component handles Triple-Stage Loading (BlurHash → LQIP → JXL), correct `sizes`, and dev/prod slug switching automatically.
+In React or Next.js projects, **prefer `<AuraImage />` over writing raw `<picture>` elements**. The component handles Triple-Stage Loading (BlurHash → LQIP → full-resolution image), correct `sizes`, and dev/prod slug switching automatically.
 
 Install: `npx shadcn@latest add https://auraimage.ai/registry/image.json`
 
@@ -93,19 +93,19 @@ rules/fit-modes.md
 ```tsx
 <picture>
   <source
-    type="image/jxl"
-    srcSet="
-      https://auraimage.ai/{slug}/{file}?w=400&fmt=jxl 400w,
-      https://auraimage.ai/{slug}/{file}?w=800&fmt=jxl 800w,
-      https://auraimage.ai/{slug}/{file}?w=1200&fmt=jxl 1200w
-    "
-  />
-  <source
     type="image/avif"
     srcSet="
       https://auraimage.ai/{slug}/{file}?w=400&fmt=avif 400w,
       https://auraimage.ai/{slug}/{file}?w=800&fmt=avif 800w,
       https://auraimage.ai/{slug}/{file}?w=1200&fmt=avif 1200w
+    "
+  />
+  <source
+    type="image/webp"
+    srcSet="
+      https://auraimage.ai/{slug}/{file}?w=400&fmt=webp 400w,
+      https://auraimage.ai/{slug}/{file}?w=800&fmt=webp 800w,
+      https://auraimage.ai/{slug}/{file}?w=1200&fmt=webp 1200w
     "
   />
   <img

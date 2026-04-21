@@ -31,7 +31,7 @@ Rules for using the AuraImage Shadcn component registry.
 - Building an upload UI
 
 **Covers:**
-- `<AuraImage />` component with Triple-Stage Loading (BlurHash → LQIP → JXL)
+- `<AuraImage />` component with Triple-Stage Loading (BlurHash → LQIP → full-resolution image)
 - `<AuraUploader />` drag-and-drop widget
 - BlurHash storage and integration pattern
 - `placeholder` prop configuration per use case
@@ -49,9 +49,9 @@ Rules for constructing AuraImage transformation URLs and responsive `<picture>` 
 
 **Covers:**
 - URL format and all query parameters (`w`, `h`, `q`, `fmt`, `fit`)
-- Responsive `<picture>` with JXL → AVIF srcsets
+- Responsive `<picture>` with AVIF → WebP srcsets
 - Format auto-negotiation vs. explicit override
-- Fit modes and tier requirements (`face` = Pro+, `auto` = Startup)
+- Fit modes: `fit=face` (face detection), `fit=auto` (saliency), available on all tiers
 
 ---
 
@@ -92,5 +92,5 @@ Configures the `@auraimage/mcp-server` for the current project.
 | `audit_lcp` | Scan for unoptimized images and estimate LCP savings |
 | `migrate_assets` | Upload local images to AuraImage |
 | `generate_alt` | Generate alt text via vision AI |
-| `generate_responsive_tag` | Generate `<picture>` with JXL/AVIF srcsets |
+| `generate_responsive_tag` | Generate `<picture>` with AVIF/WebP srcsets |
 | `smart_crop_preview` | Preview crop variants at specified dimensions |
