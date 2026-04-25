@@ -18,7 +18,7 @@ Configure the `@auraimage/mcp-server` so your AI coding agent has direct access 
 | `audit_lcp` | Scans a project directory for unoptimized images and estimates LCP savings |
 | `migrate_assets` | Uploads local images to AuraImage (supports dry-run preview) |
 | `generate_alt` | Generates accessible alt text for an image URL using vision AI |
-| `generate_responsive_tag` | Generates a `<picture>` element with JXL/AVIF srcsets |
+| `generate_responsive_tag` | Generates a `<picture>` element with AVIF/WebP srcsets |
 | `smart_crop_preview` | Returns crop variant URLs for an image at specified dimensions |
 
 ## Setup Instructions (Agent: Follow These Steps)

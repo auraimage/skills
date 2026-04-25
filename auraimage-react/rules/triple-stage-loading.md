@@ -10,7 +10,7 @@ Stage 1 (Instant, 0ms)
 Stage 2 (Fast, ~50ms)
   ↓ ?w=50&q=20 LQIP fetched — ~1–3 KB
 Stage 3 (Final, network-dependent)
-  ↓ Full-resolution JXL/AVIF fades in
+  ↓ Full-resolution AVIF/WebP fades in
 ```
 
 ## Stage 1: BlurHash Placeholder
@@ -66,7 +66,7 @@ Use `placeholder="lqip"` to skip Stage 1 and go straight to Stage 2:
 
 ## Stage 3: Full Image
 
-The full-resolution image is fetched using the browser's best supported format (JXL for Chrome 145+/Safari 17+, AVIF for older browsers). It fades in over the placeholder with a CSS `opacity` transition.
+The full-resolution image is fetched using the browser's best supported format (AVIF for modern browsers, WebP for older Chrome/Firefox, JPEG as universal fallback). It fades in over the placeholder with a CSS `opacity` transition.
 
 ## When to Use Which Configuration
 

@@ -18,8 +18,8 @@ Writing the raw `<picture>` pattern by hand is tedious and easy to get wrong. `<
 ```tsx
 // Raw <picture> — verbose, no Triple-Stage Loading, no slug switching
 <picture>
-  <source type="image/jxl" srcSet="https://auraimage.ai/my-project/hero.jpg?w=1200&fmt=jxl" />
   <source type="image/avif" srcSet="https://auraimage.ai/my-project/hero.jpg?w=1200&fmt=avif" />
+  <source type="image/webp" srcSet="https://auraimage.ai/my-project/hero.jpg?w=1200&fmt=webp" />
   <img src="https://auraimage.ai/my-project/hero.jpg?w=1200" alt="Hero" />
 </picture>
 ```

@@ -4,7 +4,7 @@ Omit `fmt` in production to let the CDN auto-negotiate. Only set `fmt` for non-b
 
 ## Why It Matters
 
-AuraImage reads the `Accept` header and returns the best format the client supports: JXL → AVIF → WebP → JPEG. Hardcoding `fmt` in a regular `<img>` tag forces a suboptimal format for many visitors.
+AuraImage reads the `Accept` header and returns the best format the client supports: AVIF → WebP → JPEG. Hardcoding `fmt` in a regular `<img>` tag forces a suboptimal format for many visitors.
 
 ## When to Omit `fmt` (Auto-Negotiate)
 
@@ -15,7 +15,7 @@ AuraImage reads the `Accept` header and returns the best format the client suppo
 
 ## When to Set `fmt` Explicitly
 
-**Open Graph / social sharing tags** — OG crawlers don't send an `Accept` header and may not support AVIF/JXL:
+**Open Graph / social sharing tags** — OG crawlers don't send an `Accept` header and may not support AVIF:
 
 ```tsx
 // Meta tag — must be JPEG for broad crawler support
@@ -32,15 +32,14 @@ AuraImage reads the `Accept` header and returns the best format the client suppo
 **`<picture>` srcsets** — here you explicitly list formats per `<source>`, so `fmt` is correct:
 
 ```tsx
-<source type="image/jxl" srcSet="https://auraimage.ai/slug/photo.jpg?w=800&fmt=jxl 800w" />
 <source type="image/avif" srcSet="https://auraimage.ai/slug/photo.jpg?w=800&fmt=avif 800w" />
+<source type="image/webp" srcSet="https://auraimage.ai/slug/photo.jpg?w=800&fmt=webp 800w" />
 ```
 
 ## Format Quality Trade-offs
 
 | Format | Size | Support |
 |--------|------|---------|
-| JXL | Best | Chrome 91+, Firefox 90+, Safari 17.0+ |
-| AVIF | Very good | Chrome 85+, Firefox 93+, Safari 16.0+ |
+| AVIF | Best | Chrome 85+, Firefox 93+, Safari 16.0+ |
 | WebP | Good | All modern browsers |
 | JPEG | Baseline | Universal |

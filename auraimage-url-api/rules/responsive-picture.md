@@ -1,10 +1,10 @@
 # responsive-picture-element
 
-Use `<picture>` with JXL → AVIF srcsets for any content image wider than 200 px.
+Use `<picture>` with AVIF → WebP srcsets for any content image wider than 200 px.
 
 ## Why It Matters
 
-A bare `<img>` with a single URL serves the same file to every device. A `<picture>` with srcsets lets browsers on modern devices download JXL (the best compression), while older browsers fall back to AVIF, then WebP, then JPEG — automatically, with zero JS.
+A bare `<img>` with a single URL serves the same file to every device. A `<picture>` with srcsets lets browsers on modern devices download AVIF (the best compression), while older browsers fall back to WebP, then JPEG — automatically, with zero JS.
 
 ## Incorrect
 
@@ -18,20 +18,20 @@ A bare `<img>` with a single URL serves the same file to every device. A `<pictu
 ```tsx
 <picture>
   <source
-    type="image/jxl"
-    srcSet="
-      https://auraimage.ai/slug/photo.jpg?w=400&fmt=jxl 400w,
-      https://auraimage.ai/slug/photo.jpg?w=800&fmt=jxl 800w,
-      https://auraimage.ai/slug/photo.jpg?w=1200&fmt=jxl 1200w
-    "
-    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 1200px"
-  />
-  <source
     type="image/avif"
     srcSet="
       https://auraimage.ai/slug/photo.jpg?w=400&fmt=avif 400w,
       https://auraimage.ai/slug/photo.jpg?w=800&fmt=avif 800w,
       https://auraimage.ai/slug/photo.jpg?w=1200&fmt=avif 1200w
+    "
+    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 1200px"
+  />
+  <source
+    type="image/webp"
+    srcSet="
+      https://auraimage.ai/slug/photo.jpg?w=400&fmt=webp 400w,
+      https://auraimage.ai/slug/photo.jpg?w=800&fmt=webp 800w,
+      https://auraimage.ai/slug/photo.jpg?w=1200&fmt=webp 1200w
     "
     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 1200px"
   />
