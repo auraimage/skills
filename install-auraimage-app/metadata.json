@@ -1,0 +1,6 @@
+{
+  "version": "0.1.0",
+  "organization": "AuraImage",
+  "abstract": "Customer-integration installer for AuraImage. Analyzes the project (framework, image surface, secrets, backend, hosting target), then orchestrates SDK install, MCP server registration, React component install, env var writes, and token route scaffolding behind a single confirm prompt. The entry point for new AuraImage installations.",
+  "references": ["https://auraimage.ai/docs/install"]
+}

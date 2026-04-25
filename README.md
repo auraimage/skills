@@ -11,6 +11,7 @@ npx skills add auraimage/skills
 Or install individual skills:
 
 ```sh
+npx skills add auraimage/skills/install-auraimage-app
 npx skills add auraimage/skills/auraimage-url-api
 npx skills add auraimage/skills/auraimage-react
 npx skills add auraimage/skills/auraimage-migrate
@@ -20,6 +21,23 @@ npx skills add auraimage/skills/auraimage-mcp
 ---
 
 ## Available Skills
+
+### `install-auraimage-app` ← Start here
+
+End-to-end installer for adding AuraImage to a project. Analyzes the codebase, then orchestrates SDK install, MCP server registration, React component install, env var writes, and token route scaffolding behind a single confirm prompt.
+
+**Use when:**
+- You want to install AuraImage in a new project
+- You typed `/install-auraimage-app` or asked your agent to "set up AuraImage"
+
+**Covers:**
+- Discovery: framework, image surface, secrets, backend, hosting target
+- Idempotent writes to `.env.local`, `.gitignore`, `.mcp.json`, `package.json`
+- shadcn registry install of `<AuraImage />` and `<AuraUploader />`
+- Token route scaffold for Next.js (snippets for Express / Hono / Fastify)
+- Stop-and-report on failures; safe to re-run
+
+---
 
 ### `auraimage-react` ← Start here for React/Next.js
 
