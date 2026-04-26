@@ -19,24 +19,9 @@ Trigger this workflow when:
 - You see Cloudinary (`res.cloudinary.com`), Imgix (`.imgix.net`), or plain S3 (`s3.amazonaws.com`) URLs
 - The `audit_lcp` MCP tool reports unoptimized images
 
-## Before You Start: `aura init`
+## Before You Start
 
-If `aura.config.json` does not exist in the project root, run `aura init` first:
-
-```sh
-npx @auraimage/cli init
-```
-
-This creates `aura.config.json`:
-
-```json
-{
-  "projectName": "my-project",
-  "projectId": "proj_xxx"
-}
-```
-
-**Always read `aura.config.json` before migrating.** Read `projectName` from the config — never hardcode it.
+You need your AuraImage project name (find it in the dashboard → your project → Settings) and your `AURA_SECRET_KEY` set in the environment. Pass `projectName` directly to the `migrate_assets` call below.
 
 ## Migration Workflow
 
@@ -52,14 +37,13 @@ This reports: total unoptimized images, estimated LCP improvement, and the list 
 
 ### Step 2 — Dry Run
 
-Run `migrate_assets` with `dryRun: true` first to preview what will be uploaded. Use `projectName` from `aura.config.json`:
+Run `migrate_assets` with `dryRun: true` first to preview what will be uploaded:
 
 ```
 migrate_assets({
   directory: "/absolute/path/to/project",
-  projectName: "my-project",   // from aura.config.json
+  projectName: "my-project",   // your AuraImage project name
   userId: "usr_xxx",
-  projectId: "proj_xxx",
   dryRun: true
 })
 ```
@@ -73,9 +57,8 @@ Run `migrate_assets` with `dryRun: false` to perform the actual upload:
 ```
 migrate_assets({
   directory: "/absolute/path/to/project",
-  projectName: "my-project",   // from aura.config.json
+  projectName: "my-project",   // your AuraImage project name
   userId: "usr_xxx",
-  projectId: "proj_xxx",
   dryRun: false
 })
 ```

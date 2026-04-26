@@ -23,9 +23,8 @@ const aura = new AuraImage({ secretKey: process.env.AURA_SECRET_KEY! });
 
 export async function POST() {
   const token = await aura.signUpload({
-    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_SLUG!,
+    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!,
     userId: 'usr_xxx',
-    projectId: 'proj_xxx',
     tier: 'hacker',
   });
   return Response.json({ token });
@@ -34,7 +33,7 @@ export async function POST() {
 
 Print this comment in the final report — the placeholders are intentional:
 
-> The route uses placeholder `userId` / `projectId` / `tier`. Wire these to your auth context before going to production.
+> The route uses placeholder `userId` / `tier`. Wire these to your auth context before going to production.
 
 ## Next.js — Pages Router
 
@@ -48,9 +47,8 @@ const aura = new AuraImage({ secretKey: process.env.AURA_SECRET_KEY! });
 
 export default async function handler(_req: NextApiRequest, res: NextApiResponse) {
   const token = await aura.signUpload({
-    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_SLUG!,
+    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!,
     userId: 'usr_xxx',
-    projectId: 'proj_xxx',
     tier: 'hacker',
   });
   res.status(200).json({ token });
@@ -68,9 +66,8 @@ const app = express();
 
 app.post('/api/upload-token', async (_req, res) => {
   const token = await aura.signUpload({
-    projectName: process.env.AURA_PROJECT_ID!,
+    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!,
     userId: 'usr_xxx',
-    projectId: 'proj_xxx',
     tier: 'hacker',
   });
   res.json({ token });
@@ -88,9 +85,8 @@ const app = new Hono();
 
 app.post('/api/upload-token', async (c) => {
   const token = await aura.signUpload({
-    projectName: process.env.AURA_PROJECT_ID!,
+    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!,
     userId: 'usr_xxx',
-    projectId: 'proj_xxx',
     tier: 'hacker',
   });
   return c.json({ token });
@@ -110,9 +106,8 @@ const app = Fastify();
 
 app.post('/api/upload-token', async () => {
   const token = await aura.signUpload({
-    projectName: process.env.AURA_PROJECT_ID!,
+    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!,
     userId: 'usr_xxx',
-    projectId: 'proj_xxx',
     tier: 'hacker',
   });
   return { token };

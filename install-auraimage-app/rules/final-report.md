@@ -8,7 +8,7 @@ Step 4f of the SKILL.md flow. The last thing the skill prints. Three sections, i
 ✓ AuraImage installed.
 
 Wrote:
-  .env.local            +2 keys (AURA_SECRET_KEY, NEXT_PUBLIC_AURA_PROJECT_SLUG)
+  .env.local            +2 keys (AURA_SECRET_KEY, NEXT_PUBLIC_AURA_PROJECT_NAME)
   .gitignore            +1 line (.env.local)
   .mcp.json             merged "auraimage" into mcpServers
   package.json          +1 dep (@auraimage/sdk@^<version>)
@@ -61,7 +61,7 @@ Docs: https://auraimage.ai/docs
 ✓ AuraImage already installed.
 
 Skipped:
-  ~~Add AURA_SECRET_KEY + NEXT_PUBLIC_AURA_PROJECT_SLUG~~ (skipped: already set)
+  ~~Add AURA_SECRET_KEY + NEXT_PUBLIC_AURA_PROJECT_NAME~~ (skipped: already set)
   ~~Merge "auraimage" into .mcp.json~~ (skipped: already present)
   ~~Install @auraimage/sdk~~ (skipped: already in dependencies)
   ~~Install image + uploader components~~ (skipped: already present)

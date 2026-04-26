@@ -44,9 +44,8 @@ const aura = new AuraImage({ secretKey: process.env.AURA_SECRET_KEY! });
 
 export async function POST() {
   const token = await aura.signUpload({
-    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_SLUG!,
+    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!,
     userId: 'usr_xxx',   // from your auth session
-    projectId: 'proj_xxx',
     tier: 'hacker',
   });
   return Response.json({ token });

@@ -49,7 +49,7 @@ Report the totals; do not list every file.
 
 Single read of each:
 
-- `.env`, `.env.local`, `.env.development.local`, `.env.production.local` — does the file exist? Does it already contain `AURA_SECRET_KEY` or `NEXT_PUBLIC_AURA_PROJECT_SLUG`?
+- `.env`, `.env.local`, `.env.development.local`, `.env.production.local` — does the file exist? Does it already contain `AURA_SECRET_KEY` or `NEXT_PUBLIC_AURA_PROJECT_NAME`?
 - `.env.example` — informational only; never written to.
 - `.gitignore` — does it cover the env file we'll write to?
 - `.mcp.json` — exists? If so, list the existing `mcpServers` keys for the summary.
@@ -94,7 +94,7 @@ AuraImage installer — discovered:
                    .gitignore covers .env.local ✓
 
 Plan:
-  1. Add AURA_SECRET_KEY + NEXT_PUBLIC_AURA_PROJECT_SLUG to .env.local
+  1. Add AURA_SECRET_KEY + NEXT_PUBLIC_AURA_PROJECT_NAME to .env.local
   2. Merge "auraimage" into .mcp.json (keeps "shadcn")
   3. pnpm add @auraimage/sdk
   4. npx shadcn add aura/image + aura/uploader

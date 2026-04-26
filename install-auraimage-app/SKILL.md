@@ -42,7 +42,7 @@ Run the five-dimension scan documented in `rules/discovery.md`:
 
 ## Step 2 — Credentials
 
-Find-or-prompt `AURA_SECRET_KEY` and `NEXT_PUBLIC_AURA_PROJECT_SLUG`.
+Find-or-prompt `AURA_SECRET_KEY` and `NEXT_PUBLIC_AURA_PROJECT_NAME`.
 
 - If `AURA_SECRET_KEY` exists in `.env.local` / `.env`, confirm with masked preview: *"Found existing `AURA_SECRET_KEY=sk_live_abcd…1234`. Use it? [Y/n]"*
 - Otherwise prompt: *"What is your AuraImage secret key? Find it at https://app.auraimage.ai → Settings → API Keys."*
@@ -66,7 +66,7 @@ Each step is independent. On failure of any step, stop immediately and print the
 
 ### 4a. Env writes
 
-See `rules/env-writes.md`. Upsert `AURA_SECRET_KEY` and `NEXT_PUBLIC_AURA_PROJECT_SLUG` into `.env.local` (Next.js / Vercel) or `.env` (everything else). Ensure that file is in `.gitignore`. Never touch `.env.example`.
+See `rules/env-writes.md`. Upsert `AURA_SECRET_KEY` and `NEXT_PUBLIC_AURA_PROJECT_NAME` into `.env.local` (Next.js / Vercel) or `.env` (everything else). Ensure that file is in `.gitignore`. Never touch `.env.example`.
 
 ### 4b. MCP server registration
 

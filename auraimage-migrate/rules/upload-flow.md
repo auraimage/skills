@@ -20,7 +20,6 @@ export async function POST() {
   const token = await aura.signUpload({
     projectName: 'my-project',
     userId: 'usr_xxx',
-    projectId: 'proj_xxx',
     tier: 'hacker',          // 'hacker' | 'pro' | 'startup'
     maxSize: '5mb',           // optional, default 5mb
     allowedTypes: ['image/*'] // optional, default image/*
