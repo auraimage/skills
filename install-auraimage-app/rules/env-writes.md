@@ -1,6 +1,6 @@
 # Env writes — idempotent upsert
 
-Step 4a of the SKILL.md flow. Writes `AURA_SECRET_KEY` and `NEXT_PUBLIC_AURA_SLUG` into the project's env file.
+Step 4a of the SKILL.md flow. Writes `AURA_SECRET_KEY` and `NEXT_PUBLIC_AURA_PROJECT_SLUG` into the project's env file.
 
 ## Target file selection
 
@@ -15,10 +15,10 @@ If the target file does not exist, create it.
 
 ## Idempotent upsert algorithm
 
-Read the file, parse line-by-line, replace any existing line whose key matches one of `AURA_SECRET_KEY` / `NEXT_PUBLIC_AURA_SLUG`, append the rest. Never blind-append (creates duplicates on re-run).
+Read the file, parse line-by-line, replace any existing line whose key matches one of `AURA_SECRET_KEY` / `NEXT_PUBLIC_AURA_PROJECT_SLUG`, append the rest. Never blind-append (creates duplicates on re-run).
 
 ```
-For each key in [AURA_SECRET_KEY, NEXT_PUBLIC_AURA_SLUG]:
+For each key in [AURA_SECRET_KEY, NEXT_PUBLIC_AURA_PROJECT_SLUG]:
   if a line in the file starts with `<key>=`:
     if existing value == new value → no-op for this key
     else → replace the line in place
@@ -47,4 +47,4 @@ When hosting target is Cloudflare (`wrangler.jsonc` / `open-next.config.ts` dete
 
 ## Re-run behavior
 
-On re-run with identical values present, the upsert is a no-op for both keys. The discovery summary should detect "AURA_* keys present and match" and mark step 1 of the plan as `~~Add AURA_SECRET_KEY + NEXT_PUBLIC_AURA_SLUG~~ (skipped: already set)`.
+On re-run with identical values present, the upsert is a no-op for both keys. The discovery summary should detect "AURA_* keys present and match" and mark step 1 of the plan as `~~Add AURA_SECRET_KEY + NEXT_PUBLIC_AURA_PROJECT_SLUG~~ (skipped: already set)`.

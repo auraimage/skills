@@ -21,7 +21,7 @@ The `blurhash` string (returned by the upload API) is decoded into a tiny `<canv
 
 ```tsx
 <AuraImage
-  slug="my-project"
+  projectName="my-project"
   filename="photo.jpg"
   alt="Photo"
   width={800}
@@ -55,7 +55,7 @@ Use `placeholder="lqip"` to skip Stage 1 and go straight to Stage 2:
 
 ```tsx
 <AuraImage
-  slug="my-project"
+  projectName="my-project"
   filename="photo.jpg"
   alt="Photo"
   width={800}
@@ -85,7 +85,7 @@ If you don't have a BlurHash yet (e.g. legacy images), you can generate one on-t
 ```tsx
 // Falls back to a blurred version of the image served by the CDN
 <AuraImage
-  slug="my-project"
+  projectName="my-project"
   filename="photo.jpg"
   alt="Photo"
   width={800}

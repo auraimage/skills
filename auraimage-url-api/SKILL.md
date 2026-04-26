@@ -22,10 +22,10 @@ Reference these rules when:
 ## URL Format
 
 ```
-https://auraimage.ai/{slug}/{filename}?{params}
+https://auraimage.ai/{projectName}/{filename}?{params}
 ```
 
-- `slug` — your project slug (from the AuraImage dashboard)
+- `projectName` — your project projectName (from the AuraImage dashboard)
 - `filename` — the uploaded filename (e.g. `photo.jpg`)
 - `params` — transformation query parameters (see below)
 
@@ -71,7 +71,7 @@ https://auraimage.ai/{slug}/{filename}?{params}
 
 ## React / Next.js Projects
 
-In React or Next.js projects, **prefer `<AuraImage />` over writing raw `<picture>` elements**. The component handles Triple-Stage Loading (BlurHash → LQIP → full-resolution image), correct `sizes`, and dev/prod slug switching automatically.
+In React or Next.js projects, **prefer `<AuraImage />` over writing raw `<picture>` elements**. The component handles Triple-Stage Loading (BlurHash → LQIP → full-resolution image), correct `sizes`, and dev/prod projectName switching automatically.
 
 Install: `npx shadcn@latest add https://auraimage.ai/registry/image.json`
 
@@ -95,21 +95,21 @@ rules/fit-modes.md
   <source
     type="image/avif"
     srcSet="
-      https://auraimage.ai/{slug}/{file}?w=400&fmt=avif 400w,
-      https://auraimage.ai/{slug}/{file}?w=800&fmt=avif 800w,
-      https://auraimage.ai/{slug}/{file}?w=1200&fmt=avif 1200w
+      https://auraimage.ai/{projectName}/{file}?w=400&fmt=avif 400w,
+      https://auraimage.ai/{projectName}/{file}?w=800&fmt=avif 800w,
+      https://auraimage.ai/{projectName}/{file}?w=1200&fmt=avif 1200w
     "
   />
   <source
     type="image/webp"
     srcSet="
-      https://auraimage.ai/{slug}/{file}?w=400&fmt=webp 400w,
-      https://auraimage.ai/{slug}/{file}?w=800&fmt=webp 800w,
-      https://auraimage.ai/{slug}/{file}?w=1200&fmt=webp 1200w
+      https://auraimage.ai/{projectName}/{file}?w=400&fmt=webp 400w,
+      https://auraimage.ai/{projectName}/{file}?w=800&fmt=webp 800w,
+      https://auraimage.ai/{projectName}/{file}?w=1200&fmt=webp 1200w
     "
   />
   <img
-    src="https://auraimage.ai/{slug}/{file}?w=1200"
+    src="https://auraimage.ai/{projectName}/{file}?w=1200"
     alt="..."
     width={1200}
     loading="lazy"

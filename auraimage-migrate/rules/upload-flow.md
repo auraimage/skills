@@ -18,7 +18,7 @@ const aura = new AuraImage({ secretKey: process.env.AURA_SECRET_KEY! });
 // In your API route / server action:
 export async function POST() {
   const token = await aura.signUpload({
-    slug: 'my-project',
+    projectName: 'my-project',
     userId: 'usr_xxx',
     projectId: 'proj_xxx',
     tier: 'hacker',          // 'hacker' | 'pro' | 'startup'

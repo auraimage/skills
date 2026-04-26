@@ -23,7 +23,7 @@ const aura = new AuraImage({ secretKey: process.env.AURA_SECRET_KEY! });
 
 export async function POST() {
   const token = await aura.signUpload({
-    slug: process.env.NEXT_PUBLIC_AURA_SLUG!,
+    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_SLUG!,
     userId: 'usr_xxx',
     projectId: 'proj_xxx',
     tier: 'hacker',
@@ -48,7 +48,7 @@ const aura = new AuraImage({ secretKey: process.env.AURA_SECRET_KEY! });
 
 export default async function handler(_req: NextApiRequest, res: NextApiResponse) {
   const token = await aura.signUpload({
-    slug: process.env.NEXT_PUBLIC_AURA_SLUG!,
+    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_SLUG!,
     userId: 'usr_xxx',
     projectId: 'proj_xxx',
     tier: 'hacker',
@@ -68,7 +68,7 @@ const app = express();
 
 app.post('/api/upload-token', async (_req, res) => {
   const token = await aura.signUpload({
-    slug: process.env.AURA_SLUG!,
+    projectName: process.env.AURA_PROJECT_ID!,
     userId: 'usr_xxx',
     projectId: 'proj_xxx',
     tier: 'hacker',
@@ -88,7 +88,7 @@ const app = new Hono();
 
 app.post('/api/upload-token', async (c) => {
   const token = await aura.signUpload({
-    slug: process.env.AURA_SLUG!,
+    projectName: process.env.AURA_PROJECT_ID!,
     userId: 'usr_xxx',
     projectId: 'proj_xxx',
     tier: 'hacker',
@@ -110,7 +110,7 @@ const app = Fastify();
 
 app.post('/api/upload-token', async () => {
   const token = await aura.signUpload({
-    slug: process.env.AURA_SLUG!,
+    projectName: process.env.AURA_PROJECT_ID!,
     userId: 'usr_xxx',
     projectId: 'proj_xxx',
     tier: 'hacker',

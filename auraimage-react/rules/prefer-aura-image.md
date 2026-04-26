@@ -9,14 +9,14 @@ In React/Next.js projects, always use `<AuraImage />` instead of a raw `<picture
 - Automatic `sizes` attribute based on `width` prop
 - `fetchpriority="high"` when `priority` is set
 - Correct `width`/`height` to prevent CLS
-- Dev/prod slug switching from `aura.config.json`
+- Dev/prod projectName switching from `aura.config.json`
 
 Writing the raw `<picture>` pattern by hand is tedious and easy to get wrong. `<AuraImage />` is the correct abstraction.
 
 ## Incorrect (in a React project)
 
 ```tsx
-// Raw <picture> — verbose, no Triple-Stage Loading, no slug switching
+// Raw <picture> — verbose, no Triple-Stage Loading, no projectName switching
 <picture>
   <source type="image/avif" srcSet="https://auraimage.ai/my-project/hero.jpg?w=1200&fmt=avif" />
   <source type="image/webp" srcSet="https://auraimage.ai/my-project/hero.jpg?w=1200&fmt=webp" />
@@ -30,7 +30,7 @@ Writing the raw `<picture>` pattern by hand is tedious and easy to get wrong. `<
 import { AuraImage } from '@/components/aura/image';
 
 <AuraImage
-  slug="my-project"
+  projectName="my-project"
   filename="hero.jpg"
   alt="Hero"
   width={1200}

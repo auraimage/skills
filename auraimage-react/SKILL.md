@@ -56,7 +56,7 @@ npx shadcn@latest add https://auraimage.ai/registry/uploader.json
 import { AuraImage } from '@/components/aura/image';
 
 <AuraImage
-  slug="my-project"
+  projectName="my-project"
   filename="hero.jpg"
   alt="Hero image"
   width={1200}
@@ -68,7 +68,7 @@ import { AuraImage } from '@/components/aura/image';
 
 ```tsx
 <AuraImage
-  slug="my-project"
+  projectName="my-project"
   filename="hero.jpg"
   alt="Hero"
   width={1200}
@@ -83,7 +83,7 @@ import { AuraImage } from '@/components/aura/image';
 
 ```tsx
 <AuraImage
-  slug="my-project"
+  projectName="my-project"
   filename="avatar.jpg"
   alt="User avatar"
   width={80}
@@ -99,7 +99,7 @@ import { AuraImage } from '@/components/aura/image';
 // When blurhash is not stored, the component falls back to a
 // low-quality image placeholder (LQIP) — still better than no placeholder
 <AuraImage
-  slug="my-project"
+  projectName="my-project"
   filename="photo.jpg"
   alt="Photo"
   width={800}
@@ -153,7 +153,7 @@ const aura = new AuraImage({ secretKey: process.env.AURA_SECRET_KEY! });
 
 export async function POST() {
   const token = await aura.signUpload({
-    slug: process.env.NEXT_PUBLIC_AURA_SLUG!,
+    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_SLUG!,
     userId: 'usr_xxx',
     projectId: 'proj_xxx',
     tier: 'hacker',

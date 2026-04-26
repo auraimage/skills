@@ -27,17 +27,16 @@ If `aura.config.json` does not exist in the project root, run `aura init` first:
 npx @auraimage/cli init
 ```
 
-This creates `aura.config.json` with separate dev and prod slugs:
+This creates `aura.config.json`:
 
 ```json
 {
-  "slug": "my-project",
-  "devSlug": "dev-my-project",
+  "projectName": "my-project",
   "projectId": "proj_xxx"
 }
 ```
 
-**Always read `aura.config.json` before migrating.** Use `devSlug` when `NODE_ENV !== 'production'` and `slug` for production. Never hardcode a slug — reading the config prevents accidentally uploading dev assets to the production CDN.
+**Always read `aura.config.json` before migrating.** Read `projectName` from the config — never hardcode it.
 
 ## Migration Workflow
 
@@ -53,12 +52,12 @@ This reports: total unoptimized images, estimated LCP improvement, and the list 
 
 ### Step 2 — Dry Run
 
-Run `migrate_assets` with `dryRun: true` first to preview what will be uploaded. Use `devSlug` from `aura.config.json` unless explicitly migrating to production:
+Run `migrate_assets` with `dryRun: true` first to preview what will be uploaded. Use `projectName` from `aura.config.json`:
 
 ```
 migrate_assets({
   directory: "/absolute/path/to/project",
-  slug: "dev-my-project",   // devSlug from aura.config.json
+  projectName: "my-project",   // from aura.config.json
   userId: "usr_xxx",
   projectId: "proj_xxx",
   dryRun: true
@@ -74,7 +73,7 @@ Run `migrate_assets` with `dryRun: false` to perform the actual upload:
 ```
 migrate_assets({
   directory: "/absolute/path/to/project",
-  slug: "dev-my-project",   // devSlug — switch to slug for production
+  projectName: "my-project",   // from aura.config.json
   userId: "usr_xxx",
   projectId: "proj_xxx",
   dryRun: false
