@@ -43,7 +43,6 @@ Run `migrate_assets` with `dryRun: true` first to preview what will be uploaded:
 migrate_assets({
   directory: "/absolute/path/to/project",
   projectName: "my-project",   // your AuraImage project name
-  userId: "usr_xxx",
   dryRun: true
 })
 ```
@@ -58,7 +57,6 @@ Run `migrate_assets` with `dryRun: false` to perform the actual upload:
 migrate_assets({
   directory: "/absolute/path/to/project",
   projectName: "my-project",   // your AuraImage project name
-  userId: "usr_xxx",
   dryRun: false
 })
 ```

@@ -10,21 +10,21 @@ Serving images at original resolution can mean 3–10 MB per request on mobile. 
 
 ```tsx
 // Missing width — serves full-resolution original
-<img src="https://auraimage.ai/my-project/hero.jpg" alt="Hero" />
+<img src="https://cdn.auraimage.ai/my-project/hero.jpg" alt="Hero" />
 ```
 
 ## Correct
 
 ```tsx
 // Width set — CDN returns a resized image
-<img src="https://auraimage.ai/my-project/hero.jpg?w=1200" alt="Hero" />
+<img src="https://cdn.auraimage.ai/my-project/hero.jpg?w=1200" alt="Hero" />
 ```
 
 ## With quality
 
 ```tsx
 // Width + quality — optimal for photos
-<img src="https://auraimage.ai/my-project/hero.jpg?w=1200&q=75" alt="Hero" />
+<img src="https://cdn.auraimage.ai/my-project/hero.jpg?w=1200&q=75" alt="Hero" />
 ```
 
 ## URL Construction Pattern
@@ -36,6 +36,6 @@ const url = (filename: string, w: number, opts?: { h?: number; q?: number; fmt?:
   if (opts?.q)   params.set('q',   String(opts.q));
   if (opts?.fmt) params.set('fmt', opts.fmt);
   if (opts?.fit) params.set('fit', opts.fit);
-  return `https://auraimage.ai/${SLUG}/${filename}?${params}`;
+  return `https://cdn.auraimage.ai/${SLUG}/${filename}?${params}`;
 };
 ```

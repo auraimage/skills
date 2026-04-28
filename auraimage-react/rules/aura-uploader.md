@@ -5,12 +5,12 @@ Use `<AuraUploader />` for all image upload UI in React projects.
 ## Why It Matters
 
 `<AuraUploader />` handles the full upload flow out of the box:
-- Client-side image preview before upload starts
-- Progress bar with Radix UI primitives
-- Fetches a presigned token from your server
-- Uploads directly to the AuraImage edge proxy
-- Returns the full `UploadResult` (url, blurhash, width, height) on success
-- Built-in error handling and retry logic
+- Drag-and-drop, click-to-browse, paste-from-clipboard.
+- Multi-file queue with per-row preview and progress.
+- Cancel and retry per file.
+- Fetches a presigned signature from your server.
+- Uploads directly to the AuraImage edge proxy — your backend never handles the bytes.
+- Returns the full `UploadResult` (url, key, blurhash, width, height, format, size) on success.
 
 ## Install
 
@@ -24,50 +24,71 @@ npx shadcn@latest add https://auraimage.ai/registry/uploader.json
 import { AuraUploader } from '@/components/aura/uploader';
 
 <AuraUploader
-  tokenEndpoint="/api/upload-token"
-  onSuccess={(result) => {
-    // Store result.url and result.blurhash in your database
-    saveImage({ url: result.url, blurhash: result.blurhash });
+  project='my-app'
+  onUpload={(result) => {
+    saveImage({
+      url: result.url,
+      key: result.key,
+      blurhash: result.blurhash,
+      width: result.width,
+      height: result.height
+    });
   }}
 />
 ```
 
-## Required: Token Endpoint
+The `project` prop tells the uploader to POST `{ project, filename, contentType, size }` to `/api/aura/sign` and read `{ signature }` from the response.
 
-The `tokenEndpoint` must be a server-side route that calls `aura.signUpload()`:
+## Required: `/api/aura/sign` endpoint
 
-```ts
-// app/api/upload-token/route.ts
+```ts title="app/api/aura/sign/route.ts"
 import { AuraImage } from '@auraimage/sdk';
 
-const aura = new AuraImage({ secretKey: process.env.AURA_SECRET_KEY! });
+const aura = new AuraImage({
+  secretKey: process.env.AURA_SECRET_KEY!,
+  projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!
+});
 
 export async function POST() {
-  const token = await aura.signUpload({
-    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!,
-    userId: 'usr_xxx',   // from your auth session
-    tier: 'hacker',
+  const signature = await aura.signUpload({
+    maxSize: '5mb',
+    allowedTypes: ['image/*'],
+    expiresIn: 3600
   });
-  return Response.json({ token });
+  return Response.json({ signature });
 }
 ```
 
-## Always Store BlurHash
-
-The `onSuccess` callback receives the full `UploadResult`. Always store `blurhash`, `width`, and `height` alongside `url` — you'll need them to render `<AuraImage />` with Triple-Stage Loading:
+If your sign route lives elsewhere or requires auth headers, pass `getSignature` instead:
 
 ```tsx
 <AuraUploader
-  tokenEndpoint="/api/upload-token"
-  onSuccess={async (result) => {
+  getSignature={async () => {
+    const token = await getAuthToken();
+    const res = await fetch('/api/sign', { headers: { Authorization: `Bearer ${token}` } });
+    return (await res.json()).signature;
+  }}
+  onUpload={(result) => saveImage(result)}
+/>
+```
+
+## Always Store BlurHash and Key
+
+`onUpload` receives the full `UploadResult`. Persist `key` (you'll need it to flip visibility or mint signed URLs) and `blurhash` (for instant placeholder rendering) alongside `url`:
+
+```tsx
+<AuraUploader
+  project='my-app'
+  onUpload={async (result) => {
     await fetch('/api/images', {
       method: 'POST',
       body: JSON.stringify({
         url: result.url,
+        key: result.key,
         blurhash: result.blurhash,
         width: result.width,
-        height: result.height,
-      }),
+        height: result.height
+      })
     });
   }}
 />
@@ -77,10 +98,12 @@ The `onSuccess` callback receives the full `UploadResult`. Always store `blurhas
 
 ```tsx
 <AuraUploader
-  tokenEndpoint="/api/upload-token"
-  accept="image/jpeg,image/png,image/webp"
-  maxSize="5mb"
-  onSuccess={(result) => console.log(result.url)}
+  project='my-app'
+  accept='image/jpeg,image/png,image/webp'
+  maxSize='5mb'
+  multiple
+  concurrency={3}
+  onUpload={(result) => console.log(result.url)}
   onError={(err) => console.error(err)}
 />
 ```
@@ -90,15 +113,15 @@ The `onSuccess` callback receives the full `UploadResult`. Always store `blurhas
 If you see code like this, replace it with `<AuraUploader />`:
 
 ```tsx
-// ❌ Manual upload — verbose, no preview, no error handling
+// ❌ Manual upload — no preview, no progress, no retry, no paste-from-clipboard
 const handleUpload = async (file: File) => {
-  const { token } = await fetch('/api/upload-token').then(r => r.json());
+  const { signature } = await fetch('/api/aura/sign', { method: 'POST' }).then((r) => r.json());
   const form = new FormData();
   form.append('file', file);
   await fetch('https://cdn.auraimage.ai/v1/upload', {
     method: 'POST',
-    headers: { 'X-Aura-Signature': token },
-    body: form,
+    headers: { 'X-Aura-Signature': signature },
+    body: form
   });
 };
 ```

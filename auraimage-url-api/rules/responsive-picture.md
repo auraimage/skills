@@ -10,7 +10,7 @@ A bare `<img>` with a single URL serves the same file to every device. A `<pictu
 
 ```tsx
 // Single URL, no format fallback, no responsive widths
-<img src="https://auraimage.ai/projectName/photo.jpg?w=1200" alt="Photo" />
+<img src="https://cdn.auraimage.ai/projectName/photo.jpg?w=1200" alt="Photo" />
 ```
 
 ## Correct
@@ -20,23 +20,23 @@ A bare `<img>` with a single URL serves the same file to every device. A `<pictu
   <source
     type="image/avif"
     srcSet="
-      https://auraimage.ai/projectName/photo.jpg?w=400&fmt=avif 400w,
-      https://auraimage.ai/projectName/photo.jpg?w=800&fmt=avif 800w,
-      https://auraimage.ai/projectName/photo.jpg?w=1200&fmt=avif 1200w
+      https://cdn.auraimage.ai/projectName/photo.jpg?w=400&fmt=avif 400w,
+      https://cdn.auraimage.ai/projectName/photo.jpg?w=800&fmt=avif 800w,
+      https://cdn.auraimage.ai/projectName/photo.jpg?w=1200&fmt=avif 1200w
     "
     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 1200px"
   />
   <source
     type="image/webp"
     srcSet="
-      https://auraimage.ai/projectName/photo.jpg?w=400&fmt=webp 400w,
-      https://auraimage.ai/projectName/photo.jpg?w=800&fmt=webp 800w,
-      https://auraimage.ai/projectName/photo.jpg?w=1200&fmt=webp 1200w
+      https://cdn.auraimage.ai/projectName/photo.jpg?w=400&fmt=webp 400w,
+      https://cdn.auraimage.ai/projectName/photo.jpg?w=800&fmt=webp 800w,
+      https://cdn.auraimage.ai/projectName/photo.jpg?w=1200&fmt=webp 1200w
     "
     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 1200px"
   />
   <img
-    src="https://auraimage.ai/projectName/photo.jpg?w=1200"
+    src="https://cdn.auraimage.ai/projectName/photo.jpg?w=1200"
     alt="Photo"
     width={1200}
     height={800}

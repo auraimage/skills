@@ -13,7 +13,7 @@ Wrote:
   .mcp.json             merged "auraimage" into mcpServers
   package.json          +1 dep (@auraimage/sdk@^<version>)
   components/aura/      image.tsx, uploader.tsx (via shadcn)
-  app/api/upload-token/ route.ts (new)
+  app/api/aura/sign/    route.ts (new)
 
 Skipped:
   ~~Uploader component~~  (no backend detected — install when you add API routes)
@@ -65,7 +65,7 @@ Skipped:
   ~~Merge "auraimage" into .mcp.json~~ (skipped: already present)
   ~~Install @auraimage/sdk~~ (skipped: already in dependencies)
   ~~Install image + uploader components~~ (skipped: already present)
-  ~~Create app/api/upload-token/route.ts~~ (skipped: file exists)
+  ~~Create app/api/aura/sign/route.ts~~ (skipped: file exists)
 
 Nothing to do.
 ```

@@ -4,7 +4,7 @@ description: Rules for using the AuraImage Shadcn component registry in React an
 license: MIT
 metadata:
   author: auraimage
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # AuraImage React Components
@@ -14,14 +14,14 @@ Guidelines for using the AuraImage Shadcn component registry — the recommended
 ## When to Apply
 
 Use these guidelines instead of (or alongside) `auraimage-url-api` when:
-- The project uses React or Next.js
-- You need image display with built-in BlurHash placeholders and Triple-Stage Loading
-- You need an upload UI component (`<AuraUploader />`)
-- You want zero-boilerplate LCP optimization
+- The project uses React or Next.js.
+- You need image display with built-in BlurHash placeholders.
+- You need an upload UI component (`<AuraUploader />`).
+- You want zero-boilerplate LCP optimization.
 
 ## Installing Components
 
-Components are injected directly into your `/components` folder — no locked NPM package, full code ownership:
+Components are copied directly into your `/components` folder — no locked NPM package, full code ownership:
 
 ```sh
 # Display component (recommended for all image rendering)
@@ -31,24 +31,27 @@ npx shadcn@latest add https://auraimage.ai/registry/image.json
 npx shadcn@latest add https://auraimage.ai/registry/uploader.json
 ```
 
+Both components read the CDN base URL from `NEXT_PUBLIC_AURA_CDN_URL`.
+
 ## Rule Categories
 
 ### 1. Display: `<AuraImage />` (CRITICAL)
 
-- `prefer-aura-image` — In React projects, always use `<AuraImage />` instead of raw `<picture>` or `<img>`. It implements Triple-Stage Loading automatically.
+- `prefer-aura-image` — In React projects, always use `<AuraImage />` instead of raw `<picture>` or `<img>`. It implements the placeholder → full-image fade automatically.
 - `aura-image-lcp` — Set `priority` on the above-the-fold image to trigger preloading.
-- `aura-image-blurhash` — Pass the `blurhash` string from the upload response to the `placeholder` prop.
 
 ### 2. Upload: `<AuraUploader />` (HIGH)
 
-- `prefer-aura-uploader` — Use `<AuraUploader />` for any image upload UI. It handles presigned token fetching, client-side preview, progress states, and direct-to-edge upload.
-- `uploader-server-action` — Wire `<AuraUploader />` to a server action or API route that calls `aura.signUpload()`.
+- `prefer-aura-uploader` — Use `<AuraUploader />` for any image upload UI. It handles signature fetching, client-side preview, progress, retries, and direct-to-edge upload.
+- `uploader-server-route` — Wire `<AuraUploader />` to a server route at `/api/aura/sign` that calls `aura.signUpload()`.
 
-### 3. Triple-Stage Loading (HIGH)
+### 3. Placeholder loading (HIGH)
 
-- `triple-stage-loading` — Understand the three stages so you can configure them correctly per use case.
+- `placeholder-loading` — Understand the placeholder strategies (`blurhash`, `lqip`, `empty`) so you can configure them correctly per use case.
 
-## `<AuraImage />` Usage
+## `<AuraImage />` usage
+
+`src` is a single string in `projectName/filename` form — the component combines them into a CDN URL.
 
 ### Basic
 
@@ -56,71 +59,65 @@ npx shadcn@latest add https://auraimage.ai/registry/uploader.json
 import { AuraImage } from '@/components/aura/image';
 
 <AuraImage
-  projectName="my-project"
-  filename="hero.jpg"
-  alt="Hero image"
+  src='my-app/hero.jpg'
+  alt='Hero image'
   width={1200}
   height={800}
 />
 ```
 
-### LCP / Hero image
+### LCP / hero image
 
 ```tsx
 <AuraImage
-  projectName="my-project"
-  filename="hero.jpg"
-  alt="Hero"
+  src='my-app/hero.jpg'
+  alt='Hero'
   width={1200}
   height={800}
-  priority          // preloads image, sets fetchpriority="high"
-  placeholder="blurhash"
-  blurhash="LKO2?U%2Tw=w]~RBVZRi};RPxuwH"  // from UploadResult.blurhash
+  priority           // preloads + fetchpriority="high"
+  placeholder='blurhash'
 />
 ```
 
-### Thumbnail with fixed crop
+The component fetches the BlurHash automatically — there is no `blurhash` prop. Persist the value returned by `signUpload`'s upload response if you want to inspect it elsewhere, but the component does not require it.
+
+### Thumbnail with face crop
 
 ```tsx
 <AuraImage
-  projectName="my-project"
-  filename="avatar.jpg"
-  alt="User avatar"
+  src='my-app/avatar.jpg'
+  alt='User avatar'
   width={80}
   height={80}
-  fit="face"         // face-aware crop
+  fit='face'
   quality={90}
 />
 ```
 
-### With BlurHash placeholder but no stored hash yet
+### Skipping BlurHash
 
 ```tsx
-// When blurhash is not stored, the component falls back to a
-// low-quality image placeholder (LQIP) — still better than no placeholder
 <AuraImage
-  projectName="my-project"
-  filename="photo.jpg"
-  alt="Photo"
+  src='my-app/photo.jpg'
+  alt='Photo'
   width={800}
   height={600}
-  placeholder="lqip"   // skips BlurHash, goes straight to Stage 2
+  placeholder='lqip'  // skip blurhash, fetch a 50px low-quality preview directly
 />
 ```
 
-## Triple-Stage Loading Pattern
+## Placeholder loading
 
-The `<AuraImage />` component implements this loading sequence automatically:
+The component renders the chosen placeholder, then crossfades the full image in once it loads:
 
-| Stage | What the User Sees | How |
+| Stage | What the user sees | How |
 |-------|-------------------|-----|
-| **1 — Instant** | Blurred colorful placeholder | BlurHash string decoded to a DataURI, rendered immediately in HTML |
-| **2 — Fast** | Low-resolution preview | `?w=50&q=20` version of the image fetched after mount |
-| **3 — Final** | Full-quality AVIF/WebP image | Full-resolution image fades in, replacing the placeholder |
+| **Placeholder** | Blurred, color-correct preview | `placeholder='blurhash'` (default) — fetches `/v1/blurhash/<src>` once, decodes to a tiny canvas. Falls back to `lqip` on failure. |
+| **Full image** | Final AVIF / WebP / JPEG | Loaded via `?w=…&h=…&q=…&fmt=auto&fit=…`, fades in with a 0.3s opacity transition. |
 
-This eliminates layout shift (CLS) and makes images feel instant even on slow connections.
+`placeholder='empty'` skips the placeholder entirely.
 
-## `<AuraUploader />` Usage
+## `<AuraUploader />` usage
 
 ```tsx
 import { AuraUploader } from '@/components/aura/uploader';
@@ -128,45 +125,50 @@ import { AuraUploader } from '@/components/aura/uploader';
 export default function ProfilePage() {
   return (
     <AuraUploader
-      onSuccess={(result) => {
-        // result.url    — CDN URL to store in your database
-        // result.blurhash — store this alongside the URL
-        // result.width / result.height — store for <img> dimensions
+      project='my-app'
+      onUpload={(result) => {
+        // result.url    — final CDN URL
+        // result.key    — pass to getSignedUrl / setVisibility
+        // result.blurhash — store for placeholder rendering
         console.log('Uploaded:', result.url);
       }}
-      // Server action or API route that calls aura.signUpload()
-      tokenEndpoint="/api/upload-token"
-      accept="image/*"
-      maxSize="5mb"
+      accept='image/*'
+      maxSize='5mb'
     />
   );
 }
 ```
 
-### Server-side token endpoint
+### Server-side signature endpoint
 
-```ts
-// app/api/upload-token/route.ts
+The `project` prop tells the uploader to POST to `/api/aura/sign` and expect `{ signature }` back:
+
+```ts title="app/api/aura/sign/route.ts"
 import { AuraImage } from '@auraimage/sdk';
 
-const aura = new AuraImage({ secretKey: process.env.AURA_SECRET_KEY! });
+const aura = new AuraImage({
+  secretKey: process.env.AURA_SECRET_KEY!,
+  projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!
+});
 
 export async function POST() {
-  const token = await aura.signUpload({
-    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!,
-    userId: 'usr_xxx',
-    tier: 'hacker',
+  const signature = await aura.signUpload({
+    maxSize: '5mb',
+    allowedTypes: ['image/*'],
+    expiresIn: 3600
   });
-  return Response.json({ token });
+  return Response.json({ signature });
 }
 ```
 
-## How to Use
+For RSC-minted signatures or custom auth flows, pass `signature` (string) or `getSignature` (async function) instead of `project`.
+
+## How to use
 
 Read individual rule files for detailed explanations and code examples:
 
 ```
 rules/prefer-aura-image.md
-rules/triple-stage-loading.md
+rules/placeholder-loading.md
 rules/aura-uploader.md
 ```

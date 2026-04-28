@@ -115,7 +115,7 @@ If no backend → skip the uploader with: *"no backend detected — install when
 
 ### 4e. Token route scaffold
 
-Next.js + uploader installed only. See `rules/token-route.md`. Create `app/api/upload-token/route.ts` (app router) or `pages/api/upload-token.ts` (pages router) using the template in that rule file.
+Next.js + uploader installed only. See `rules/token-route.md`. Create `app/api/aura/sign/route.ts` (app router) or `pages/api/aura/sign.ts` (pages router) using the template in that rule file. The path matches `<AuraUploader />`'s default sign endpoint, so the uploader works with no extra wiring.
 
 If the file already exists, do **not** overwrite. Diff against the template and ask the user before touching.
 

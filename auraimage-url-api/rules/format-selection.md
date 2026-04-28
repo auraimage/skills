@@ -10,7 +10,7 @@ AuraImage reads the `Accept` header and returns the best format the client suppo
 
 ```tsx
 // In a regular <img> or as a fallback src — let the CDN decide
-<img src="https://auraimage.ai/projectName/photo.jpg?w=800" alt="..." />
+<img src="https://cdn.auraimage.ai/projectName/photo.jpg?w=800" alt="..." />
 ```
 
 ## When to Set `fmt` Explicitly
@@ -19,21 +19,21 @@ AuraImage reads the `Accept` header and returns the best format the client suppo
 
 ```tsx
 // Meta tag — must be JPEG for broad crawler support
-<meta property="og:image" content="https://auraimage.ai/projectName/photo.jpg?w=1200&fmt=jpeg" />
+<meta property="og:image" content="https://cdn.auraimage.ai/projectName/photo.jpg?w=1200&fmt=jpeg" />
 ```
 
 **RSS feeds and email** — email clients have poor format support:
 
 ```html
 <!-- Email template — use JPEG -->
-<img src="https://auraimage.ai/projectName/banner.jpg?w=600&fmt=jpeg" />
+<img src="https://cdn.auraimage.ai/projectName/banner.jpg?w=600&fmt=jpeg" />
 ```
 
 **`<picture>` srcsets** — here you explicitly list formats per `<source>`, so `fmt` is correct:
 
 ```tsx
-<source type="image/avif" srcSet="https://auraimage.ai/projectName/photo.jpg?w=800&fmt=avif 800w" />
-<source type="image/webp" srcSet="https://auraimage.ai/projectName/photo.jpg?w=800&fmt=webp 800w" />
+<source type="image/avif" srcSet="https://cdn.auraimage.ai/projectName/photo.jpg?w=800&fmt=avif 800w" />
+<source type="image/webp" srcSet="https://cdn.auraimage.ai/projectName/photo.jpg?w=800&fmt=webp 800w" />
 ```
 
 ## Format Quality Trade-offs

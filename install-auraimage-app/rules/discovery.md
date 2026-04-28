@@ -98,7 +98,7 @@ Plan:
   2. Merge "auraimage" into .mcp.json (keeps "shadcn")
   3. pnpm add @auraimage/sdk
   4. npx shadcn add aura/image + aura/uploader
-  5. Create app/api/upload-token/route.ts
+  5. Create app/api/aura/sign/route.ts
   6. Suggest: run migrate_assets on 8 Cloudinary URLs + /public
 
 Proceed? [Y/n] (or describe changes, e.g. 'skip uploader')

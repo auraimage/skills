@@ -1,6 +1,8 @@
 # Token route scaffold
 
-Step 4e of the SKILL.md flow. Creates a server-side endpoint that signs upload tokens for `<AuraUploader />`.
+Step 4e of the SKILL.md flow. Creates a server-side endpoint that mints upload signatures for `<AuraUploader />`.
+
+The default mount path is `/api/aura/sign` — the path `<AuraUploader project={...} />` POSTs to when no `getSignature` / `signature` prop is set. Returning a different shape or path means the user has to wire it up manually.
 
 ## When to scaffold
 
@@ -14,44 +16,50 @@ If a non-Next backend was detected (Express / Hono / Fastify), do **not** auto-w
 
 ## Next.js — App Router
 
-Path: `app/api/upload-token/route.ts` (or `.js` if no TypeScript).
+Path: `app/api/aura/sign/route.ts` (or `.js` if no TypeScript).
 
 ```ts
 import { AuraImage } from '@auraimage/sdk';
 
-const aura = new AuraImage({ secretKey: process.env.AURA_SECRET_KEY! });
+const aura = new AuraImage({
+  secretKey: process.env.AURA_SECRET_KEY!,
+  projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!
+});
 
 export async function POST() {
-  const token = await aura.signUpload({
-    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!,
-    userId: 'usr_xxx',
-    tier: 'hacker',
+  const signature = await aura.signUpload({
+    maxSize: '5mb',
+    allowedTypes: ['image/*'],
+    expiresIn: 3600
   });
-  return Response.json({ token });
+  return Response.json({ signature });
 }
 ```
 
-Print this comment in the final report — the placeholders are intentional:
+Note in the final report:
 
-> The route uses placeholder `userId` / `tier`. Wire these to your auth context before going to production.
+> The route mints a 1-hour signature for any caller. Add your auth check (session, JWT, …) before calling `aura.signUpload()` if uploads should be gated.
 
 ## Next.js — Pages Router
 
-Path: `pages/api/upload-token.ts`.
+Path: `pages/api/aura/sign.ts`.
 
 ```ts
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { AuraImage } from '@auraimage/sdk';
 
-const aura = new AuraImage({ secretKey: process.env.AURA_SECRET_KEY! });
+const aura = new AuraImage({
+  secretKey: process.env.AURA_SECRET_KEY!,
+  projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!
+});
 
 export default async function handler(_req: NextApiRequest, res: NextApiResponse) {
-  const token = await aura.signUpload({
-    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!,
-    userId: 'usr_xxx',
-    tier: 'hacker',
+  const signature = await aura.signUpload({
+    maxSize: '5mb',
+    allowedTypes: ['image/*'],
+    expiresIn: 3600
   });
-  res.status(200).json({ token });
+  res.status(200).json({ signature });
 }
 ```
 
@@ -61,16 +69,20 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
 import express from 'express';
 import { AuraImage } from '@auraimage/sdk';
 
-const aura = new AuraImage({ secretKey: process.env.AURA_SECRET_KEY! });
+const aura = new AuraImage({
+  secretKey: process.env.AURA_SECRET_KEY!,
+  projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!
+});
+
 const app = express();
 
-app.post('/api/upload-token', async (_req, res) => {
-  const token = await aura.signUpload({
-    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!,
-    userId: 'usr_xxx',
-    tier: 'hacker',
+app.post('/api/aura/sign', async (_req, res) => {
+  const signature = await aura.signUpload({
+    maxSize: '5mb',
+    allowedTypes: ['image/*'],
+    expiresIn: 3600
   });
-  res.json({ token });
+  res.json({ signature });
 });
 ```
 
@@ -80,16 +92,20 @@ app.post('/api/upload-token', async (_req, res) => {
 import { Hono } from 'hono';
 import { AuraImage } from '@auraimage/sdk';
 
-const aura = new AuraImage({ secretKey: process.env.AURA_SECRET_KEY! });
+const aura = new AuraImage({
+  secretKey: process.env.AURA_SECRET_KEY!,
+  projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!
+});
+
 const app = new Hono();
 
-app.post('/api/upload-token', async (c) => {
-  const token = await aura.signUpload({
-    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!,
-    userId: 'usr_xxx',
-    tier: 'hacker',
+app.post('/api/aura/sign', async (c) => {
+  const signature = await aura.signUpload({
+    maxSize: '5mb',
+    allowedTypes: ['image/*'],
+    expiresIn: 3600
   });
-  return c.json({ token });
+  return c.json({ signature });
 });
 
 export default app;
@@ -101,16 +117,20 @@ export default app;
 import Fastify from 'fastify';
 import { AuraImage } from '@auraimage/sdk';
 
-const aura = new AuraImage({ secretKey: process.env.AURA_SECRET_KEY! });
+const aura = new AuraImage({
+  secretKey: process.env.AURA_SECRET_KEY!,
+  projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!
+});
+
 const app = Fastify();
 
-app.post('/api/upload-token', async () => {
-  const token = await aura.signUpload({
-    projectName: process.env.NEXT_PUBLIC_AURA_PROJECT_NAME!,
-    userId: 'usr_xxx',
-    tier: 'hacker',
+app.post('/api/aura/sign', async () => {
+  const signature = await aura.signUpload({
+    maxSize: '5mb',
+    allowedTypes: ['image/*'],
+    expiresIn: 3600
   });
-  return { token };
+  return { signature };
 });
 ```
 
@@ -118,6 +138,6 @@ app.post('/api/upload-token', async () => {
 
 If the target Next.js path already exists, do not overwrite. Show the user a unified diff against the template above and ask:
 
-> `app/api/upload-token/route.ts` already exists. Replace it with the AuraImage scaffold? [y/N]
+> `app/api/aura/sign/route.ts` already exists. Replace it with the AuraImage scaffold? [y/N]
 
 Default to **N**. The user's existing handler may already be correct or wired to their auth.
