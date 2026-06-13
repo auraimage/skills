@@ -1,0 +1,6 @@
+{
+  "version": "0.1.0",
+  "organization": "AuraImage",
+  "abstract": "Sets up AuraImage credentials (Secret Key + project name) in a project's env store, in any language or framework. Find-or-prompt, live validation against the API, confirmed idempotent writes, git-tracked-file abort. The only skill in the collection permitted to write secret values to disk.",
+  "references": ["https://auraimage.ai/docs/getting-started"]
+}

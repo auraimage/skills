@@ -9,11 +9,11 @@ metadata:
 
 # Install AuraImage
 
-End-to-end installer for adding AuraImage to a customer's project. Runs five steps behind one confirmation: discover → credentials → env writes → MCP merge → SDK install → component install → token route → final report.
+End-to-end installer for adding AuraImage to a customer's project. Runs the steps behind one confirmation: discover → plan → credentials & env (via `auraimage-api-key`) → MCP merge → SDK install → component install → token route → final report.
 
 ## Operating Principles
 
-- **One confirm, not N.** Show a discovery summary + ordered plan, ask once, then execute.
+- **One confirm, not N.** Show a discovery summary + ordered plan, ask once, then execute. One deliberate exception: the `auraimage-api-key` sub-skill confirms its own env write (see step 4a) — secrets are never written to disk unconfirmed, regardless of what the caller already showed the user.
 - **Idempotent.** Every write is read-merge-write. Re-running the skill on a fully-installed project prints "Already installed" and exits clean.
 - **Degrade and report.** When the project can't support a step (no backend → no uploader, unknown framework → no components), skip it with a reason. Never abort mid-flow for a per-step gap.
 - **Stop and report on failure.** On the first failed write, halt. Leave successful writes in place; tell the user exactly which step failed and the command to retry. Re-running resumes from the failed step.
@@ -40,15 +40,11 @@ Run the five-dimension scan documented in `rules/discovery.md`:
 4. **Backend** — does the project have a runtime that can sign upload tokens? (Next.js API/route handlers, Express, Hono, Fastify, plain Node server). Pure SPA = no backend.
 5. **Hosting target** — `vercel.json`, `wrangler.jsonc`, `netlify.toml`, `open-next.config.ts`. Drives env-file convention.
 
-## Step 2 — Credentials
+## Step 2 — Credentials (delegated)
 
-Find-or-prompt `AURA_SECRET_KEY` and `NEXT_PUBLIC_AURA_PROJECT_NAME`.
+Credentials are owned by the `auraimage-api-key` sibling skill — the only skill in this collection permitted to write secret values to disk. The installer never handles the plaintext Secret Key.
 
-- If `AURA_SECRET_KEY` exists in `.env.local` / `.env`, confirm with masked preview: *"Found existing `AURA_SECRET_KEY=sk_live_abcd…1234`. Use it? [Y/n]"*
-- Otherwise prompt: *"What is your AuraImage secret key? Find it at https://app.auraimage.ai → Settings → API Keys."*
-- Then prompt for projectName: *"What is your AuraImage project projectName? Find it in the dashboard → your project → Settings."*
-
-If the user has no account, point them at https://auraimage.ai/signup before continuing.
+In this step, only determine from discovery (dimension 3) whether credentials are already configured, so the plan can show the step as live or `~~skipped: already set~~`. The find-or-prompt, validation, and env write all happen in step 4a via `auraimage-api-key`.
 
 ## Step 3 — Show plan, get one confirm
 
@@ -64,9 +60,11 @@ End with: *"Proceed? [Y/n] (or describe changes, e.g. 'skip uploader')"*
 
 Each step is independent. On failure of any step, stop immediately and print the stop-and-report message (see "Failure handling" below). Do not attempt later steps.
 
-### 4a. Env writes
+### 4a. Credentials & env writes — invoke `auraimage-api-key`
 
-See `rules/env-writes.md`. Upsert `AURA_SECRET_KEY` and `NEXT_PUBLIC_AURA_PROJECT_NAME` into `.env.local` (Next.js / Vercel) or `.env` (everything else). Ensure that file is in `.gitignore`. Never touch `.env.example`.
+Invoke the `auraimage-api-key` sibling skill and let it run its full flow: find-or-prompt the Secret Key and project name, validate them against the API, and upsert into the project's env store (it handles target-file selection, gitignore coverage, and the git-tracked-file abort). Pass along discovery results so it doesn't re-scan.
+
+It confirms its own write (masked value + target file) even though the installer already got the plan confirm. The second Y/n is deliberate: the collection's contract is that a secret is never written to disk unconfirmed, unconditionally — the invariant must not depend on what a caller showed the user. Do not write env files from this skill.
 
 ### 4b. MCP server registration
 
@@ -154,6 +152,7 @@ Do not roll back successful writes. Do not attempt subsequent steps.
 
 This skill inlines the install-time bits and **points** at sibling skills for ongoing use:
 
+- `auraimage-api-key` — Secret Key + project name acquisition, validation, and env-store writes. The only skill in the collection allowed to write secrets to disk; step 4a invokes it.
 - `auraimage-react` — `<AuraImage />` props, triple-stage loading, uploader patterns. Activates automatically when editing image code post-install.
 - `auraimage-url-api` — URL parameters, responsive `<picture>`, fit modes. Activates when editing raw `<img>` / `<picture>`.
 - `auraimage-migrate` — `audit_lcp` / `migrate_assets` workflow.

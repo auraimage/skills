@@ -52,17 +52,9 @@ If it already exists, merge the `"auraimage"` key into the existing `mcpServers`
 
 ### Step 3 — Ensure the secret key is available
 
-The MCP server needs `AURA_SECRET_KEY` to sign upload tokens. Ask the user:
+The MCP server reads `AURA_SECRET_KEY` from the environment — the `.mcp.json` entry references it as `${AURA_SECRET_KEY}`, which is a reference, never the value itself.
 
-> "What is your AuraImage secret key? You can find it in the AuraImage dashboard under **Settings → API Keys**."
-
-Once provided, add it to the project's `.env.local` (Next.js) or `.env` file:
-
-```
-AURA_SECRET_KEY=sk_live_...
-```
-
-Make sure `.env.local` and `.env` are in `.gitignore` — **never commit the secret key**.
+If the project's env store already contains `AURA_SECRET_KEY`, this step is done. Otherwise invoke the `auraimage-api-key` sibling skill — it finds-or-prompts the Secret Key, validates it, and writes it to the project's env store with the user's confirmation. Do not prompt for or write the key from this skill: `auraimage-api-key` is the only skill in this collection permitted to write secret values to disk.
 
 ### Step 4 — Confirm the setup
 

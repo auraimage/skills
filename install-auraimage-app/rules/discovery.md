@@ -69,15 +69,14 @@ Decides whether `<AuraUploader />` and the token route can be installed.
 
 ## Dimension 5 — Hosting target
 
-Drives env-file convention and shows up in the summary.
+Informational — shows up in the summary and is passed to `auraimage-api-key` (which owns env-file selection and the production-secret guidance).
 
 | Signal | Target |
 |--------|--------|
-| `vercel.json` or no host file + Next.js | Vercel — write to `.env.local` |
-| `wrangler.jsonc` / `wrangler.toml` or `open-next.config.ts` | Cloudflare Workers / Pages — write to `.env.local` for build, surface Wrangler-secret hint in report |
-| `netlify.toml` | Netlify — write to `.env` |
-| `Dockerfile` only | Self-hosted — write to `.env` |
-| None | Default to `.env.local` for Next, `.env` otherwise |
+| `vercel.json` or no host file + Next.js | Vercel |
+| `wrangler.jsonc` / `wrangler.toml` or `open-next.config.ts` | Cloudflare Workers / Pages |
+| `netlify.toml` | Netlify |
+| `Dockerfile` only | Self-hosted |
 
 ## Discovery summary screen
 
@@ -94,7 +93,7 @@ AuraImage installer — discovered:
                    .gitignore covers .env.local ✓
 
 Plan:
-  1. Add AURA_SECRET_KEY + NEXT_PUBLIC_AURA_PROJECT_NAME to .env.local
+  1. Credentials & env setup via auraimage-api-key (confirms its write separately)
   2. Merge "auraimage" into .mcp.json (keeps "shadcn")
   3. pnpm add @auraimage/sdk
   4. npx shadcn add aura/image + aura/uploader

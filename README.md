@@ -12,6 +12,7 @@ Or install individual skills:
 
 ```sh
 npx skills add auraimage/skills/install-auraimage-app
+npx skills add auraimage/skills/auraimage-api-key
 npx skills add auraimage/skills/auraimage-url-api
 npx skills add auraimage/skills/auraimage-react
 npx skills add auraimage/skills/auraimage-migrate
@@ -32,10 +33,28 @@ End-to-end installer for adding AuraImage to a project. Analyzes the codebase, t
 
 **Covers:**
 - Discovery: framework, image surface, secrets, backend, hosting target
-- Idempotent writes to `.env.local`, `.gitignore`, `.mcp.json`, `package.json`
+- Credentials & env setup delegated to `auraimage-api-key`
+- Idempotent writes to `.gitignore`, `.mcp.json`, `package.json`
 - shadcn registry install of `<AuraImage />` and `<AuraUploader />`
 - Token route scaffold for Next.js (snippets for Express / Hono / Fastify)
 - Stop-and-report on failures; safe to re-run
+
+---
+
+### `auraimage-api-key`
+
+Sets up AuraImage credentials — the Secret Key (`AURA_SECRET_KEY`) and project name (`AURA_PROJECT_NAME`) — in the project's env store. Language- and framework-agnostic. The only skill in this collection permitted to write secret values to disk.
+
+**Use when:**
+- Setting up, fixing, or rotating your AuraImage Secret Key ("API key")
+- Wiring `AURA_SECRET_KEY` into `.env` / `.env.local` / `.dev.vars` in any stack
+- Invoked automatically by `install-auraimage-app` and `auraimage-mcp`
+
+**Covers:**
+- Find-or-prompt with masked previews; never mints keys
+- Live validation against the API (catches typos, revoked keys, wrong-project pairs)
+- Confirmed, idempotent env writes; aborts on git-tracked files
+- Per-platform production secret guidance (Vercel, Cloudflare, Netlify, Fly, Heroku)
 
 ---
 
@@ -101,7 +120,7 @@ Configures the `@auraimage/mcp-server` for the current project.
 **Covers:**
 - Writing the correct entry to `.mcp.json`
 - Merging with existing MCP server configs
-- Setting up `AURA_SECRET_KEY` in `.env`
+- Delegating `AURA_SECRET_KEY` setup to `auraimage-api-key`
 
 **MCP tools unlocked:**
 
